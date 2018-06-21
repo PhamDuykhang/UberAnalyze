@@ -22,14 +22,15 @@ import org.apache.spark.sql.types.StructType;
 
 
 public class CreateKmeensModel {
-	static final Logger logger = Logger.getLogger(CreateKmeensModel.class);
+
+	static final  String APP_NAME="Creatdatamodel";
 	public static void main(String[] args) {
 		
 		// TODO Auto-generated method stub
-		final  String APP_NAME="Creatdatamodel";
+		
 		SparkConf sparkconf= new SparkConf()
 				.setAppName(APP_NAME)
-				.setMaster("local[2]");
+				.setMaster("local[3]");
 		SparkContext sc = new SparkContext(sparkconf);
 		SparkSession sparksession = new SparkSession(sc);
 //				.Builder().config(sparkconf).getOrCreate();
@@ -57,7 +58,7 @@ public class CreateKmeensModel {
 				.setK(8)
 				.setPredictionCol("Predict");
 		KMeansModel model = kmeans.fit(dataslipt[0]);
-		logger.info("Final train");
+
 		Vector[] centerclust = model.clusterCenters();
 		for(Vector a: centerclust) {
 			System.out.println(a.toString());
@@ -69,10 +70,10 @@ public class CreateKmeensModel {
 			model.save("D:/UberAnalyzeGPS/RS/modelKmeans");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			logger.error("File Not Found");
+		
 			
 		}
-		logger.info("model is Saved!!");
+	
 		sparksession.close();
 		
 	}
